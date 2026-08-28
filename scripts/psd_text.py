@@ -575,7 +575,7 @@ def main():
         print(render_txt(screens))
         return 0
     if args.html:
-        print(HTML_SHELL.format(title=os.path.basename(args.psd), body=render_html_body(screens)))
+        print(HTML_SHELL.format(title=html.escape(os.path.basename(args.psd)), body=render_html_body(screens)))
         return 0
 
     base = os.path.splitext(os.path.basename(args.psd))[0]
@@ -586,7 +586,7 @@ def main():
         with open(txt_path, "w", encoding="utf-8") as f:
             f.write(render_txt(screens))
         with open(html_path, "w", encoding="utf-8") as f:
-            f.write(HTML_SHELL.format(title=base, body=render_html_body(screens)))
+            f.write(HTML_SHELL.format(title=html.escape(base), body=render_html_body(screens)))
         print(f"羅列版   : {txt_path}")
         print(f"HTML版   : {html_path}")
 
