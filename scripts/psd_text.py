@@ -20,6 +20,20 @@ import sys
 from psd_tools import PSDImage
 from psd_tools.constants import Tag
 
+# ---------------------------------------------------------------- 出力の文字コード
+
+
+def use_utf8_stdout():
+    """標準出力をUTF-8に固定する。
+
+    Windowsのコンソールは既定がcp932で、日本語混じりの出力をファイルへ
+    リダイレクトすると UnicodeEncodeError で落ちる。書き出すファイルは
+    encoding を明示しているが、標準出力だけは環境まかせになるため。
+    """
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
+
 # ---------------------------------------------------------------- 画面の切り出し
 
 SP_HINT = re.compile(r"(^|[^a-z])(sp|smart\s*phone|smartphone|mobile|mb)([^a-z]|$)|スマホ|スマートフォン|モバイル", re.I)
@@ -558,6 +572,7 @@ th {{ background: #f3f3f3; }}
 
 
 def main():
+    use_utf8_stdout()
     parser = argparse.ArgumentParser(description="PSDからテキストを抽出する")
     parser.add_argument("psd")
     parser.add_argument("-o", "--outdir", help="羅列版とHTML版を書き出すディレクトリ")
